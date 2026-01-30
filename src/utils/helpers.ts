@@ -5,9 +5,3 @@ export const debug = (...args: unknown[]) => {
     console.log('[Eusate SDK Debug]', ...args)
   }
 }
-
-export const getSDKInfo = () => ({
-  version: PROD_CONFIG.VERSION,
-  environment: PROD_CONFIG.ENV,
-  chatUrl: PROD_CONFIG.CHAT_URL,
-})

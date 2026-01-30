@@ -7,6 +7,7 @@ declare class EusateMessenger {
     private fabIcon;
     private fab;
     private apiKey;
+    private chatUrl;
     private onReady?;
     private onError?;
     private chatInitialized;

@@ -74,7 +74,6 @@ const Eusate: EusateMessengerSDK = {
 }
 
 if (typeof window !== 'undefined') {
-  console.log('window', window)
   window.Eusate = Eusate
 }
 

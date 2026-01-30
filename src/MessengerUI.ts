@@ -4,6 +4,8 @@ import {
   MessageObjectType,
   POST_MESSAGE_TYPES,
   PROD_CONFIG,
+  Environment,
+  ENVIRONMENT_URLS,
 } from './utils'
 
 class EusateMessenger {
@@ -15,6 +17,7 @@ class EusateMessenger {
   private fabIcon: HTMLSpanElement
   private fab: HTMLButtonElement
   private apiKey: string
+  private chatUrl: string
   private onReady?: () => void
   private onError?: (error: Error) => void
   private chatInitialized: boolean = false
@@ -29,6 +32,7 @@ class EusateMessenger {
     this.apiKey = config?.apiKey.trim()
     this.onReady = config.onReady
     this.onError = config.onError
+    this.chatUrl = ENVIRONMENT_URLS[config?.environment || Environment.PROD]
 
     this.container = document.createElement('div')
     this.fabIframe = document.createElement('iframe')
@@ -121,7 +125,7 @@ class EusateMessenger {
 
   private setupChatIframe = () => {
     this.chatIframe.id = 'eusate-chat-widget'
-    this.chatIframe.src = PROD_CONFIG.CHAT_URL
+    this.chatIframe.src = this.chatUrl
 
     this.chatIframe.style.cssText = `
       position: absolute;
@@ -165,7 +169,7 @@ class EusateMessenger {
         timestamp: Date.now(),
       }
 
-      this.chatIframe.contentWindow?.postMessage(message, PROD_CONFIG.CHAT_URL)
+      this.chatIframe.contentWindow?.postMessage(message, this.chatUrl)
     }, 1000) // this is to allow the react app load up
 
     this.initTimeout = setTimeout(() => {
@@ -181,7 +185,7 @@ class EusateMessenger {
 
   private setupMessageHandlers = (): void => {
     this.messageHandler = (evt: MessageEvent) => {
-      if (evt.origin !== new URL(PROD_CONFIG.CHAT_URL).origin) return
+      if (evt.origin !== new URL(this.chatUrl).origin) return
 
       switch (evt.data.type) {
         case POST_MESSAGE_TYPES.READY:
@@ -353,7 +357,7 @@ class EusateMessenger {
         type: POST_MESSAGE_TYPES.OPEN_CHAT,
         timestamp: Date.now(),
       } as MessageObjectType,
-      PROD_CONFIG.CHAT_URL,
+      this.chatUrl,
     )
   }
 
@@ -375,7 +379,7 @@ class EusateMessenger {
         type: POST_MESSAGE_TYPES.CLOSE_CHAT,
         timestamp: Date.now(),
       } as MessageObjectType,
-      PROD_CONFIG.CHAT_URL,
+      this.chatUrl,
     )
   }
 
@@ -428,7 +432,7 @@ class EusateMessenger {
           type: POST_MESSAGE_TYPES.DESTROY,
           timestamp: Date.now(),
         } as MessageObjectType,
-        PROD_CONFIG.CHAT_URL,
+        this.chatUrl,
       )
     }
 

@@ -1,12 +1,15 @@
 export const PROD_CONFIG = {
   ICOMOON_URL:
     'https://cdn.jsdelivr.net/gh/eusate/eusate-messenger-sdk@latest/src/assets/icomoon/style.css',
-  CHAT_URL: 'https://chat.eusate.com',
-  // CHAT_URL : 'http://localhost:3000',
   VERSION: __VERSION__,
   ENV: process.env.NODE_ENV,
   DEBUG: process.env.NODE_ENV === 'development',
 } as const
+
+export const ENVIRONMENT_URLS = {
+  development: 'https://chat.dev.eusate.com',
+  production: 'https://chat.eusate.com',
+}
 
 export const POST_MESSAGE_TYPES = {
   INIT: 'EUSATE_INIT',
