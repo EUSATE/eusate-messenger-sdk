@@ -1,6 +1,6 @@
 {
   "name": "@eusate/messenger-sdk",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Eusate Messenger SDK - Embeddable AI-powered customer support",
   "main": "dist/eusate-sdk.esm.js",
   "module": "dist/eusate-sdk.esm.js",
