@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.2]
+## [0.2.0] - 2026-01-30
+
+### Added
+
+- Support for dev internal testing by allowing input for environment selection
+
+## [0.1.2] - 2025-10-08
 
 ### Changed
 
@@ -52,5 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - httpOnly cookie session management in chatbot-core
 
 [Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.1.1...HEAD
+[0.2.0]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.0
+[0.1.2]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.1.2
 [0.1.1]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.1.1
 [0.1.0]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.1.0
