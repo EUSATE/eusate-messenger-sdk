@@ -110,7 +110,24 @@ or use Github CLI:
 gh release create vX.Y.Z --notes "$(sed -n '/## \[X.Y.Z\]/,/## \[/p' CHANGELOG.md | head -n -1)"
 ```
 
-#### 6. Publish to NPM
+#### 6. Authentication
+
+This step logs you in to the eusate_ai account with a granular token
+
+```bash
+export NPM_TOKEN = $NPM_TOKEN
+```
+
+NPM_TOKEN can be gotten from [here](https://docs.google.com/document/d/1qPR7nnp9_Yo6cAspAzx05lm4gQjpziEUb3oyM02Wh4I/edit?tab=t.0)
+
+Verify log in with this
+
+```bash
+> npm whoami
+eusate_ai
+```
+
+#### 7. Publish to NPM
 
 ```bash
 # This automatically runs prepublishOnly (lint, type-check, build)
@@ -125,7 +142,7 @@ Note: You may be prompted for an OTP (one-time password) from your authenticator
 2. [x] Packages the dist/ folder
 3. [x] Uploads to NPM registry
 
-#### 7. Verify Publication
+#### 8. Verify Publication
 
 ```bash
 # Check package is live
@@ -140,7 +157,7 @@ npm install @eusate/messenger-sdk@latest
 
 Visit: https://www.npmjs.com/package/@eusate/messenger-sdk
 
-#### 8. Post-Release
+#### 9. Post-Release
 
 - [ ] Update public documentation
 - [ ] Send a release note to the team
