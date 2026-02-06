@@ -188,7 +188,7 @@ class EusateMessenger {
       #eusate-chat-widget-container #eusate-chat-widget.isOpen {
         transform: scale(1);
         opacity: 1;
-        pointer-event: all;
+        pointer-events: all;
       }
       @media only screen and (max-width: 640px) {
         #eusate-chat-widget-container #eusate-chat-widget {
