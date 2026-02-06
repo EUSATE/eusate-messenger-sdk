@@ -5,6 +5,7 @@ export declare const PROD_CONFIG: {
     readonly DEBUG: boolean;
 };
 export declare const ENVIRONMENT_URLS: {
+    local: string;
     development: string;
     production: string;
 };

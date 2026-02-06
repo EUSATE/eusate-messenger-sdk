@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Release documentation to include the use of granular access token for authentication
 
+### Changed
+
+- Made the chat screen fullscreen on mobile
+
+### Fixed
+
+- Fixed the FAB flicker on initialization
+
 ## [0.2.0] - 2026-01-30
 
 ### Added

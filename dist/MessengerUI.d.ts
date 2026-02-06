@@ -21,13 +21,14 @@ declare class EusateMessenger {
     private init;
     private setupContainer;
     private setupFabIframe;
+    private loadFabIframeHead;
     private setupChatIframe;
     private handleChatIframeLoad;
     private handleIframeError;
     private setupMessageHandlers;
     private handleReady;
     private handleError;
-    private loadFabButton;
+    private loadFab;
     isInitialized: () => boolean;
     isOpen: () => boolean;
     open: () => void;

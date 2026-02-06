@@ -84,8 +84,6 @@ class EusateMessenger {
           document.body.appendChild(this.container)
         })
       }
-
-      this.loadFabButton()
     } catch (error) {
       this.handleError(
         new Error(`${ERROR_MESSAGES.ERROR}, ${(error as Error).message}`),
@@ -97,8 +95,8 @@ class EusateMessenger {
     this.container.id = 'eusate-chat-widget-container'
     this.container.style.cssText = `
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 0px;
+      right: 0px;
       z-index: 10000;
     `
 
@@ -109,38 +107,81 @@ class EusateMessenger {
     this.fabIframe.id = 'eusate-chat-widget-fab'
     this.fabIframe.style.cssText = `
       position: relative;
+      bottom: 20px;
+      right: 20px;
       z-index: 1;
       height: 80px;
       width: 80px;
       border: none;
       background: transparent;
-      box-shadow: 0px 40px 72px -12px #10192824;
     `
 
     this.fabIframe.setAttribute('title', 'Open chat support')
     this.fabIframe.setAttribute('aria-label', 'Open chat support')
 
     this.container.appendChild(this.fabIframe)
+
+    this.fabIframe.onload = this.loadFabIframeHead
+  }
+
+  private loadFabIframeHead = () => {
+    const doc = this.fabIframe.contentDocument
+
+    if (!doc) {
+      setTimeout(() => this.loadFabIframeHead(), 100)
+      return
+    }
+
+    // head
+    const head = doc.head || doc.createElement('head')
+
+    // icomoon
+    const icomoonLink = doc.createElement('link')
+    icomoonLink.href = PROD_CONFIG.ICOMOON_URL
+    icomoonLink.rel = 'stylesheet'
+    head.appendChild(icomoonLink)
+
+    // to avoid multiple head tags in the DOM
+    if (!doc.head) {
+      doc.documentElement.appendChild(head)
+    }
   }
 
   private setupChatIframe = () => {
     this.chatIframe.id = 'eusate-chat-widget'
     this.chatIframe.src = this.chatUrl
 
-    this.chatIframe.style.cssText = `
-      position: absolute;
-      bottom: 100px;
-      right: 0px;
-      width: 390px;
-      height: 576px;
-      transform: scale(0);
-      opacity: 0;
-      transition-property: transform, translate, scale, rotate, opacity;
-      transition-timing-function:  cubic-bezier(0.4, 0, 0.2, 1);
-      transition-duration: 500ms;
-      border: none;
-      transform-origin: bottom right;
-      box-shadow: 0px 40px 72px -12px #10192824;
+    // create style tag on page's head
+    const style = document.createElement('style')
+    document.head.append(style)
+    style.textContent = `
+      #eusate-chat-widget-container #eusate-chat-widget {
+        position: absolute;
+        z-index: 1;
+        bottom: 120px;
+        right: 20px;
+        width: 390px;
+        max-width: calc(100dvw - 40px);
+        outline: none;
+        height: 576px;
+        transform: scale(0);
+        opacity: 0;
+        transition-property: transform, translate, scale, rotate, opacity;
+        transition-timing-function:  cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 500ms;
+        border: none;
+        transform-origin: bottom right;
+        box-shadow: 0px 40px 72px -12px #10192824;
+      }
+      @media only screen and (max-width: 640px) {
+        #eusate-chat-widget-container #eusate-chat-widget {
+          height: 100dvh;
+          width: 100dvw;
+          bottom: 0px;
+          right:0px;
+          max-width: 100dvw;
+        }
+      }
     `
 
     this.chatIframe.setAttribute('title', 'Eusate chat support')
@@ -221,11 +262,10 @@ class EusateMessenger {
     }
 
     this.onReady?.()
+    this.loadFab()
   }
 
   private handleError = (error: Error): void => {
-    console.error(error.message)
-
     if (this.initTimeout) {
       clearTimeout(this.initTimeout)
       this.initTimeout = null
@@ -233,36 +273,14 @@ class EusateMessenger {
 
     this.destroy()
 
-    // if we destroy the instance we do not need to the disable the fab
-    // if (this.fab) {
-    //   this.fab.disabled = true
-    //   this.fab.style.opacity = '0.5'
-    //   this.fab.style.cursor = 'not-allowed'
-    // }
-
-    this.onError?.(error) // safely call the onError callback
+    this.onError?.(error)
   }
 
-  private loadFabButton = () => {
+  private loadFab = () => {
     const doc = this.fabIframe.contentDocument
-
     if (!doc) {
-      setTimeout(() => this.loadFabButton(), 100)
+      setTimeout(() => this.loadFab(), 100)
       return
-    }
-
-    // head
-    const head = doc.head || doc.createElement('head')
-
-    // icomoon
-    const icomoonLink = doc.createElement('link')
-    icomoonLink.href = PROD_CONFIG.ICOMOON_URL
-    icomoonLink.rel = 'stylesheet'
-    head.appendChild(icomoonLink)
-
-    // to avoid multiple head tags in the DOM
-    if (!doc.head) {
-      doc.documentElement.appendChild(head)
     }
 
     // body
@@ -279,7 +297,6 @@ class EusateMessenger {
       border: none;
       outline: none;
     `
-
     //   button
     this.fab.id = 'eusate-messenger-fab-btn'
     this.fab.style.cssText = `
@@ -297,7 +314,6 @@ class EusateMessenger {
       border: none;
       outline: none;
       `
-    this.fab.disabled = true
 
     this.fab.onmouseenter = () => {
       if (!this.fab.disabled) {
@@ -306,7 +322,11 @@ class EusateMessenger {
     }
     this.fab.onmouseleave = () => {
       if (!this.fab.disabled) {
-        this.fab.style.transform = 'scale(0.95)'
+        if (this.isChatOpen) {
+          this.fab.style.transform = 'scale(0.8)'
+        } else {
+          this.fab.style.transform = 'scale(0.95)'
+        }
       }
     }
     this.fab.onmousedown = () => {
@@ -314,20 +334,16 @@ class EusateMessenger {
         this.fab.style.transform = 'scale(0.8)'
       }
     }
-
     // button icon
     this.fabIcon.id = 'button-icon'
     this.fabIcon.className = 'icon-eusate'
-    this.fabIcon.style.cssText = `
-      font-size: 36px;
-    `
-
+    this.fabIcon.style.cssText = `font-size: 36px;`
     this.fab.appendChild(this.fabIcon)
     body.appendChild(this.fab)
-
     if (!doc.body) {
       doc.documentElement.appendChild(body)
     }
+
     this.fabClickHandler = () => this.toggle()
     this.fab.addEventListener('click', this.fabClickHandler, false)
   }

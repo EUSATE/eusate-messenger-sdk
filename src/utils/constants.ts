@@ -7,6 +7,7 @@ export const PROD_CONFIG = {
 } as const
 
 export const ENVIRONMENT_URLS = {
+  local: 'http://localhost:3000',
   development: 'https://chat.dev.eusate.com',
   production: 'https://chat.eusate.com',
 }
