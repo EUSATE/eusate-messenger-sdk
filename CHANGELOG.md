@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.2.3 - 2026-02-06
+
 ### Fixed
 
 - Fixed frozen screen on mobile when chat is closed.
@@ -87,7 +89,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed iframe with restricted permissions
 - httpOnly cookie session management in chatbot-core
 
-[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.3
 [0.2.2]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.2
 [0.2.1]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.1
 [0.2.0]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.0
