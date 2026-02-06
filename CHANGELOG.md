@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.2.2 - 2026-02-06
+
 ### Fixed
 
-- Cleanup up styles added to the head of the parent page properly on destruction and creation to avoid duplicate stylesheet
+- Cleaned up styles added to the head of the parent page properly on destruction and creation to avoid duplicate stylesheet
 - Controlled the open and close state with variables and class names instead of manually using style properties
 - Ensured that the height doesn't overflow the screen on the top no matter the height of the device
 
@@ -17,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Exported the EusateEnvironment enum for test purposes
 
-## 0.2.1 0- 2026-02-06
+## 0.2.1 0 - 2026-02-06
 
 ### Updated
 
@@ -81,7 +83,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed iframe with restricted permissions
 - httpOnly cookie session management in chatbot-core
 
-[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.2
 [0.2.1]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.1
 [0.2.0]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.0
 [0.1.2]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.1.2
