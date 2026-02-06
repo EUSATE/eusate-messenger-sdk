@@ -98,6 +98,8 @@ class EusateMessenger {
       bottom: 0px;
       right: 0px;
       z-index: 10000;
+      width: 0px;
+      height: 0px;
     `
 
     this.container.setAttribute('data-eusate-widget', 'true')
@@ -107,8 +109,8 @@ class EusateMessenger {
     this.fabIframe.id = 'eusate-chat-widget-fab'
     this.fabIframe.style.cssText = `
       position: relative;
-      bottom: 20px;
-      right: 20px;
+      bottom: 100px;
+      right: 100px;
       z-index: 1;
       height: 80px;
       width: 80px;
@@ -151,9 +153,15 @@ class EusateMessenger {
     this.chatIframe.id = 'eusate-chat-widget'
     this.chatIframe.src = this.chatUrl
 
+    let style = document.querySelector('#eusate-chat-widget')
+
     // create style tag on page's head
-    const style = document.createElement('style')
-    document.head.append(style)
+    if (!style) {
+      style = document.createElement('style')
+      style.id = 'eusate-chat-widget'
+      document.head.append(style)
+    }
+
     style.textContent = `
       #eusate-chat-widget-container #eusate-chat-widget {
         position: absolute;
@@ -162,6 +170,7 @@ class EusateMessenger {
         right: 20px;
         width: 390px;
         max-width: calc(100dvw - 40px);
+        max-height: calc(100dvh - 140px);
         outline: none;
         height: 576px;
         transform: scale(0);
@@ -172,6 +181,12 @@ class EusateMessenger {
         border: none;
         transform-origin: bottom right;
         box-shadow: 0px 40px 72px -12px #10192824;
+        transform: scale(0);
+        opacity: 0;
+      }
+      #eusate-chat-widget-container #eusate-chat-widget.isOpen {
+        transform: scale(1);
+        opacity: 1;
       }
       @media only screen and (max-width: 640px) {
         #eusate-chat-widget-container #eusate-chat-widget {
@@ -179,9 +194,17 @@ class EusateMessenger {
           width: 100dvw;
           bottom: 0px;
           right:0px;
+          max-height:  100dvh;
           max-width: 100dvw;
         }
       }
+      @media only screen and (max-height: 500px) {
+      #eusate-chat-widget-container #eusate-chat-widget {
+        height: 100dvh;
+        bottom: 0px;
+        max-height:  100dvh;
+      }
+    }
     `
 
     this.chatIframe.setAttribute('title', 'Eusate chat support')
@@ -360,8 +383,7 @@ class EusateMessenger {
     if (this.isChatOpen) return
 
     this.isChatOpen = true
-    this.chatIframe.style.transform = 'scale(1)'
-    this.chatIframe.style.opacity = '1'
+    this.chatIframe.classList.add('isOpen')
 
     // update FAB
     this.fabIcon.classList.add('icon-chevron-down')
@@ -381,8 +403,7 @@ class EusateMessenger {
     if (!this.isChatOpen) return
 
     this.isChatOpen = false
-    this.chatIframe.style.transform = 'scale(0)'
-    this.chatIframe.style.opacity = '0'
+    this.chatIframe.classList.remove('isOpen')
 
     //   change the icon to chevron down
     this.fabIcon.classList.add('icon-eusate')
@@ -406,7 +427,7 @@ class EusateMessenger {
       return
     }
 
-    if (this.chatIframe.style.transform === 'scale(1)') {
+    if (this.isChatOpen) {
       this.close()
     } else {
       this.open()
@@ -459,7 +480,8 @@ class EusateMessenger {
     EusateMessenger.instance = null
     this.isDestroyed = true
 
-    console.log('EusateMessenger instance destroyed successfully')
+    // remove css styles
+    document.querySelector('#eusate-chat-widget')?.remove()
   }
 }
 

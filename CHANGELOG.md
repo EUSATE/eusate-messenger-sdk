@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Cleanup up styles added to the head of the parent page properly on destruction and creation to avoid duplicate stylesheet
+- Controlled the open and close state with variables and class names instead of manually using style properties
+- Ensured that the height doesn't overflow the screen on the top no matter the height of the device
+
+### Updated
+
+- Exported the EusateEnvironment enum for test purposes
+
 ## 0.2.1 0- 2026-02-06
 
 ### Updated
