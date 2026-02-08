@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Update
 
-- Syncing version
+- Syncing versions for both CDN and npm package
 
 ## 0.2.3 - 2026-02-06
 
