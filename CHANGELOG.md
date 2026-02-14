@@ -7,23 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-02-14
+
 ### Update
 
 - The chat iframe attributes were updated to allow modals and also access to the host page's microphone
 
-## 0.2.4 - 2026-02-08
+## [0.2.4] - 2026-02-08
 
 ### Update
 
 - Syncing versions for both CDN and npm package
 
-## 0.2.3 - 2026-02-06
+## [0.2.3] - 2026-02-06
 
 ### Fixed
 
 - Fixed frozen screen on mobile when chat is closed.
 
-## 0.2.2 - 2026-02-06
+## [0.2.2] - 2026-02-06
 
 ### Fixed
 
@@ -35,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Exported the EusateEnvironment enum for test purposes
 
-## 0.2.1 0 - 2026-02-06
+## [0.2.1] - 2026-02-06
 
 ### Updated
 
@@ -99,7 +101,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed iframe with restricted permissions
 - httpOnly cookie session management in chatbot-core
 
-[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.4...HEAD
+[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.5...HEAD
+[0.2.5]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.5
 [0.2.4]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.4
 [0.2.3]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.3
 [0.2.2]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.2
