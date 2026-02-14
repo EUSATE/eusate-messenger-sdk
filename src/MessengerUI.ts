@@ -215,8 +215,9 @@ class EusateMessenger {
     // Set sandbox attributes for security
     this.chatIframe.setAttribute(
       'sandbox',
-      'allow-scripts allow-forms allow-same-origin allow-popups',
+      'allow-scripts allow-forms allow-same-origin allow-popups allow-modals',
     )
+    this.chatIframe.setAttribute('allow', `microphone ${this.chatUrl};`)
 
     this.chatIframe.onload = () => this.handleChatIframeLoad()
     this.chatIframe.onerror = () => this.handleIframeError()

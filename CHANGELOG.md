@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Update
+
+- The chat iframe attributes were updated to allow modals and also access to the host page's microphone
+
 ## 0.2.4 - 2026-02-08
 
 ### Update
