@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-05-26
+
+### Update
+
+- Expanded chat iframe sandbox to include `allow-downloads` and `allow-popups-to-escape-sandbox`, enabling file download flows and allowing popups (e.g. OAuth redirects, external links) to escape sandbox restrictions
+
 ## [0.2.5] - 2026-02-14
 
 ### Update
@@ -101,7 +107,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed iframe with restricted permissions
 - httpOnly cookie session management in chatbot-core
 
-[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.5...HEAD
+[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.6...HEAD
+[0.2.6]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.6
 [0.2.5]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.5
 [0.2.4]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.4
 [0.2.3]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.3
