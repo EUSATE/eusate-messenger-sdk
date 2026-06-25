@@ -5,3 +5,10 @@ export const debug = (...args: unknown[]) => {
     console.log('[Eusate SDK Debug]', ...args)
   }
 }
+
+export const minifyCSS = (css: string): string =>
+  css
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s*([{};])\s*/g, '$1')
+    .trim()

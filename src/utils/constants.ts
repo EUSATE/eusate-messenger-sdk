@@ -1,6 +1,4 @@
 export const PROD_CONFIG = {
-  ICOMOON_URL:
-    'https://cdn.jsdelivr.net/gh/eusate/eusate-messenger-sdk@latest/src/assets/icomoon/style.css',
   VERSION: __VERSION__,
   ENV: process.env.NODE_ENV,
   DEBUG: process.env.NODE_ENV === 'development',

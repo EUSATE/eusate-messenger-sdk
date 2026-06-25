@@ -3,10 +3,119 @@ import {
   ERROR_MESSAGES,
   MessageObjectType,
   POST_MESSAGE_TYPES,
-  PROD_CONFIG,
   Environment,
   ENVIRONMENT_URLS,
+  minifyCSS,
 } from './utils'
+
+const CHAT_WIDGET_STYLE = minifyCSS(`
+  #eusate-chat-widget-container {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 10000;
+    width: 0px;
+    height: 0px;
+  }
+  #eusate-chat-widget-container #eusate-chat-widget {
+    position: absolute;
+    z-index: 1;
+    bottom: 64px;
+    right: 16px;
+    width: 340px;
+    max-width: calc(100dvw - 40px);
+    max-height: calc(100dvh - 140px);
+    outline: none;
+    height: 576px;
+    transform: scale(0);
+    opacity: 0;
+    transition-property: transform, translate, scale, rotate, opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+    border: none;
+    transform-origin: bottom right;
+    box-shadow: 0px 40px 72px -12px #10192824;
+    pointer-events: none;
+    border-radius: 12px;
+  }
+  #eusate-chat-widget-container #eusate-chat-widget.isOpen {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+  #eusate-chat-widget-container #eusate-chat-widget-fab {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    z-index: 1;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: transparent;
+  }
+  @media only screen and (max-width: 640px) {
+    #eusate-chat-widget-container #eusate-chat-widget {
+      height: 100dvh;
+      width: 100dvw;
+      bottom: 0px;
+      right: 0px;
+      max-height: 100dvh;
+      max-width: 100dvw;
+      border-radius: 0px;
+    }
+  }
+  @media only screen and (max-height: 500px) {
+    #eusate-chat-widget-container #eusate-chat-widget {
+      height: 100dvh;
+      bottom: 0px;
+      max-height: 100dvh;
+    }
+  }
+`)
+const CHAT_ICON_SVG = `
+    <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M1.33323 16.0002C1.33323 7.90016 7.8999 1.3335 15.9999 1.3335C24.0999 1.3335 30.6666 7.90016 30.6666 16.0002C30.6666 24.1002 24.0999 30.6668 15.9999 30.6668H0.26123L4.08256 24.5522C2.29012 22.0613 1.32813 19.0689 1.33323 16.0002ZM15.9172 10.0002C15.21 10.0002 14.5317 10.2811 14.0316 10.7812C13.5315 11.2813 13.2506 11.9596 13.2506 12.6668V13.4082H10.5839V12.6668C10.5839 11.2523 11.1458 9.89579 12.146 8.89559C13.1462 7.8954 14.5027 7.3335 15.9172 7.3335C17.3317 7.3335 18.6883 7.8954 19.6885 8.89559C20.6887 9.89579 21.2506 11.2523 21.2506 12.6668V14.0068L20.8026 14.4042L17.2506 17.5615V19.3335H14.5839V16.3642L15.0306 15.9668L18.5839 12.8082V12.6668C18.5839 11.9596 18.3029 11.2813 17.8028 10.7812C17.3028 10.2811 16.6245 10.0002 15.9172 10.0002ZM14.5839 24.0002V21.3335H17.2506V24.0002H14.5839Z" fill="white"/>
+    </svg>`
+const CHEVRON_DOWN_SVG = `
+    <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M39.8402 17.8999L26.8002 30.9399C25.2602 32.4799 22.7402 32.4799 21.2002 30.9399L8.16016 17.8999" stroke="white" stroke-width="4" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`
+const FAB_STYLE = minifyCSS(`
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: none;
+    outline: none;
+  }
+  #eusate-messenger-fab-btn {
+    width: 100%;
+    height: 100%;
+    background-color: #0a0a0a;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+    border: none;
+    outline: none;
+  }
+  #eusate-messenger-fab-btn:not(:disabled):hover { transform: scale(1); }
+  #eusate-messenger-fab-btn:not(:disabled):active { transform: scale(0.8); }
+  #eusate-messenger-fab-btn.is-open { transform: scale(0.8); }
+  #eusate-messenger-fab-btn.is-open:not(:disabled):hover { transform: scale(1); }
+  .fab-icon-chevron { display: none; }
+  #eusate-messenger-fab-btn.is-open .fab-icon-chat { display: none; }
+  #eusate-messenger-fab-btn.is-open .fab-icon-chevron { display: block; }
+`)
 
 class EusateMessenger {
   private static instance: EusateMessenger | null = null
@@ -14,7 +123,6 @@ class EusateMessenger {
   private container: HTMLDivElement
   private fabIframe: HTMLIFrameElement
   private chatIframe: HTMLIFrameElement
-  private fabIcon: HTMLSpanElement
   private fab: HTMLButtonElement
   private apiKey: string
   private chatUrl: string
@@ -24,20 +132,21 @@ class EusateMessenger {
   private isChatOpen: boolean = false
   private isDestroyed: boolean = false
 
+  private chatOrigin: string = ''
   private fabClickHandler: (() => void) | null = null
   private messageHandler: ((evt: MessageEvent) => void) | null = null
-  private initTimeout: NodeJS.Timeout | null = null
+  private initTimeout: number | null = null
 
   private constructor(config: MessengerConfig) {
     this.apiKey = config?.apiKey.trim()
     this.onReady = config.onReady
     this.onError = config.onError
     this.chatUrl = ENVIRONMENT_URLS[config?.environment || Environment.PROD]
+    this.chatOrigin = new URL(this.chatUrl).origin
 
     this.container = document.createElement('div')
     this.fabIframe = document.createElement('iframe')
     this.chatIframe = document.createElement('iframe')
-    this.fabIcon = document.createElement('span')
     this.fab = document.createElement('button')
 
     this.init()
@@ -93,60 +202,15 @@ class EusateMessenger {
 
   private setupContainer = () => {
     this.container.id = 'eusate-chat-widget-container'
-    this.container.style.cssText = `
-      position: fixed;
-      bottom: 0px;
-      right: 0px;
-      z-index: 10000;
-      width: 0px;
-      height: 0px;
-    `
-
     this.container.setAttribute('data-eusate-widget', 'true')
   }
 
   private setupFabIframe = () => {
     this.fabIframe.id = 'eusate-chat-widget-fab'
-    this.fabIframe.style.cssText = `
-      position: relative;
-      bottom: 100px;
-      right: 100px;
-      z-index: 1;
-      height: 80px;
-      width: 80px;
-      border: none;
-      background: transparent;
-    `
-
     this.fabIframe.setAttribute('title', 'Open chat support')
     this.fabIframe.setAttribute('aria-label', 'Open chat support')
 
     this.container.appendChild(this.fabIframe)
-
-    this.fabIframe.onload = this.loadFabIframeHead
-  }
-
-  private loadFabIframeHead = () => {
-    const doc = this.fabIframe.contentDocument
-
-    if (!doc) {
-      setTimeout(() => this.loadFabIframeHead(), 100)
-      return
-    }
-
-    // head
-    const head = doc.head || doc.createElement('head')
-
-    // icomoon
-    const icomoonLink = doc.createElement('link')
-    icomoonLink.href = PROD_CONFIG.ICOMOON_URL
-    icomoonLink.rel = 'stylesheet'
-    head.appendChild(icomoonLink)
-
-    // to avoid multiple head tags in the DOM
-    if (!doc.head) {
-      doc.documentElement.appendChild(head)
-    }
   }
 
   private setupChatIframe = () => {
@@ -162,57 +226,10 @@ class EusateMessenger {
       document.head.append(style)
     }
 
-    style.textContent = `
-      #eusate-chat-widget-container #eusate-chat-widget {
-        position: absolute;
-        z-index: 1;
-        bottom: 120px;
-        right: 20px;
-        width: 390px;
-        max-width: calc(100dvw - 40px);
-        max-height: calc(100dvh - 140px);
-        outline: none;
-        height: 576px;
-        transform: scale(0);
-        opacity: 0;
-        transition-property: transform, translate, scale, rotate, opacity;
-        transition-timing-function:  cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 500ms;
-        border: none;
-        transform-origin: bottom right;
-        box-shadow: 0px 40px 72px -12px #10192824;
-        transform: scale(0);
-        opacity: 0;
-        pointer-events: none;
-      }
-      #eusate-chat-widget-container #eusate-chat-widget.isOpen {
-        transform: scale(1);
-        opacity: 1;
-        pointer-events: all;
-      }
-      @media only screen and (max-width: 640px) {
-        #eusate-chat-widget-container #eusate-chat-widget {
-          height: 100dvh;
-          width: 100dvw;
-          bottom: 0px;
-          right:0px;
-          max-height:  100dvh;
-          max-width: 100dvw;
-        }
-      }
-      @media only screen and (max-height: 500px) {
-      #eusate-chat-widget-container #eusate-chat-widget {
-        height: 100dvh;
-        bottom: 0px;
-        max-height:  100dvh;
-      }
-    }
-    `
+    style.textContent = CHAT_WIDGET_STYLE
 
     this.chatIframe.setAttribute('title', 'Eusate chat support')
     this.chatIframe.setAttribute('aria-hidden', 'true')
-
-    // Set sandbox attributes for security
     this.chatIframe.setAttribute(
       'sandbox',
       'allow-scripts allow-downloads allow-popups-to-escape-sandbox allow-forms allow-same-origin allow-popups allow-modals',
@@ -226,7 +243,6 @@ class EusateMessenger {
   }
 
   private handleChatIframeLoad = (): void => {
-    // TODO: test this without setTimeout to see if it waits for the react app. It should, if it doesn't find a way.
     setTimeout(() => {
       const message: MessageObjectType = {
         type: POST_MESSAGE_TYPES.INIT,
@@ -243,7 +259,7 @@ class EusateMessenger {
       if (!this.isInitialized) {
         this.handleError(new Error(ERROR_MESSAGES.INIT_TIMEOUT))
       }
-    }, 10 * 1000) // 10 seconds for timeout
+    }, 10 * 1000)
   }
 
   private handleIframeError = (): void => {
@@ -252,7 +268,7 @@ class EusateMessenger {
 
   private setupMessageHandlers = (): void => {
     this.messageHandler = (evt: MessageEvent) => {
-      if (evt.origin !== new URL(this.chatUrl).origin) return
+      if (evt.origin !== this.chatOrigin) return
 
       switch (evt.data.type) {
         case POST_MESSAGE_TYPES.READY:
@@ -309,62 +325,18 @@ class EusateMessenger {
       return
     }
 
-    // body
-    const body = doc.body || doc.createElement('body')
-    body.style.cssText = `
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      border: none;
-      outline: none;
-    `
-    //   button
-    this.fab.id = 'eusate-messenger-fab-btn'
-    this.fab.style.cssText = `
-      width: 80px;
-      height: 80px;
-      background-color: #0a0a0a;
-      border-radius: 50%;
-      cursor: pointer;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transform: scale(0.95);
-      transition: transform 0.2s ease;
-      border: none;
-      outline: none;
-      `
+    const head = doc.head || doc.createElement('head')
+    const style = doc.createElement('style')
+    style.textContent = FAB_STYLE
+    head.appendChild(style)
+    if (!doc.head) doc.documentElement.appendChild(head)
 
-    this.fab.onmouseenter = () => {
-      if (!this.fab.disabled) {
-        this.fab.style.transform = 'scale(1)'
-      }
-    }
-    this.fab.onmouseleave = () => {
-      if (!this.fab.disabled) {
-        if (this.isChatOpen) {
-          this.fab.style.transform = 'scale(0.8)'
-        } else {
-          this.fab.style.transform = 'scale(0.95)'
-        }
-      }
-    }
-    this.fab.onmousedown = () => {
-      if (!this.fab.disabled) {
-        this.fab.style.transform = 'scale(0.8)'
-      }
-    }
-    // button icon
-    this.fabIcon.id = 'button-icon'
-    this.fabIcon.className = 'icon-eusate'
-    this.fabIcon.style.cssText = `font-size: 36px;`
-    this.fab.appendChild(this.fabIcon)
+    const body = doc.body || doc.createElement('body')
+    this.fab.id = 'eusate-messenger-fab-btn'
+    this.fab.innerHTML = `
+      <span class="fab-icon-chat">${CHAT_ICON_SVG}</span>
+      <span class="fab-icon-chevron">${CHEVRON_DOWN_SVG}</span>`
+
     body.appendChild(this.fab)
     if (!doc.body) {
       doc.documentElement.appendChild(body)
@@ -387,11 +359,7 @@ class EusateMessenger {
 
     this.isChatOpen = true
     this.chatIframe.classList.add('isOpen')
-
-    // update FAB
-    this.fabIcon.classList.add('icon-chevron-down')
-    this.fabIcon.classList.remove('icon-eusate')
-    this.fab.style.transform = 'scale(0.8)'
+    this.fab.classList.add('is-open')
 
     this.chatIframe.contentWindow?.postMessage(
       {
@@ -407,11 +375,7 @@ class EusateMessenger {
 
     this.isChatOpen = false
     this.chatIframe.classList.remove('isOpen')
-
-    //   change the icon to chevron down
-    this.fabIcon.classList.add('icon-eusate')
-    this.fabIcon.classList.remove('icon-chevron-down')
-    this.fab.style.transform = 'scale(0.95)'
+    this.fab.classList.remove('is-open')
 
     // send message to the messenger core
     this.chatIframe.contentWindow?.postMessage(
@@ -424,7 +388,6 @@ class EusateMessenger {
   }
 
   toggle = () => {
-    // Only allow toggling if chat is initialized
     if (!this.chatInitialized) {
       console.warn(ERROR_MESSAGES.NOT_INIT_YET)
       return

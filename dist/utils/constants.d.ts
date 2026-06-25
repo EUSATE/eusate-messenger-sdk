@@ -1,5 +1,4 @@
 export declare const PROD_CONFIG: {
-    readonly ICOMOON_URL: "https://cdn.jsdelivr.net/gh/eusate/eusate-messenger-sdk@latest/src/assets/icomoon/style.css";
     readonly VERSION: string;
     readonly ENV: string | undefined;
     readonly DEBUG: boolean;

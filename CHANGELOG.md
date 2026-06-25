@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `minifyCSS` utility in `utils/helpers` — strips CSS comments and collapses whitespace around block delimiters (`{`, `}`, `;`), safe for `calc()` expressions and pseudo-selectors
+- `CHAT_WIDGET_STYLE` and `FAB_STYLE` module-level CSS constants consolidate all widget styles (container, iframe sizing, chat widget animation, responsive breakpoints, FAB states) in one place, evaluated once at module load via `minifyCSS`
+- Inline SVG constants (`CHAT_ICON_SVG`, `CHEVRON_DOWN_SVG`) replace the icomoon font dependency; both icons are rendered once into the DOM and toggled by CSS class, eliminating the `innerHTML` swap on every open/close
+
+### Changed
+
+- Resized FAB iframe and button from 80×80px to 40×40px; repositioned 16px from the bottom-right edge
+- Reduced chat widget width from 390px to 340px; repositioned to `bottom: 64px` / `right: 16px`
+- FAB visual states (rest, hover, press, open) are now fully CSS-driven via `:hover`, `:active`, `:not(:disabled)`, and an `.is-open` class toggle — all JS mouse event handlers and imperative `style.transform` calls removed
+- `open()` and `close()` are now pure state methods that toggle classes and dispatch postMessages with no visual side-effects
+- `chatOrigin` cached as an instance field at construction time instead of allocating `new URL()` on every incoming `message` event
+
+### Fixed
+
+- Added `border-radius: 12px` to the chat widget (reset to `0` on the mobile full-screen breakpoint)
+- Removed duplicate `transform: scale(0)` and `opacity: 0` declarations from the injected stylesheet
+
 ## [0.2.6] - 2026-05-26
 
 ### Update

@@ -4,7 +4,6 @@ declare class EusateMessenger {
     private container;
     private fabIframe;
     private chatIframe;
-    private fabIcon;
     private fab;
     private apiKey;
     private chatUrl;
@@ -13,6 +12,7 @@ declare class EusateMessenger {
     private chatInitialized;
     private isChatOpen;
     private isDestroyed;
+    private chatOrigin;
     private fabClickHandler;
     private messageHandler;
     private initTimeout;
@@ -21,7 +21,6 @@ declare class EusateMessenger {
     private init;
     private setupContainer;
     private setupFabIframe;
-    private loadFabIframeHead;
     private setupChatIframe;
     private handleChatIframeLoad;
     private handleIframeError;
