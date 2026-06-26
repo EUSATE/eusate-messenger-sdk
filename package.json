@@ -14,14 +14,13 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/eusate-sdk.esm.js",
-      "require": "./dist/eusate-sdk.esm.js",
       "default": "./dist/eusate-sdk.esm.js"
     }
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && rollup -c --environment NODE_ENV:production",
-    "build:dev": "npm run clean && rollup -c --environment NODE_ENV:development",
+    "build": "npm run clean && rollup -c --environment NODE_ENV:production && rm -rf dist/_types",
+    "build:dev": "npm run clean && rollup -c --environment NODE_ENV:development && rm -rf dist/_types",
     "dev": "rollup -c --watch --environment NODE_ENV:development",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint:fix": "npm run lint -- --fix",
@@ -75,6 +74,7 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
     "rollup": "^4.34.9",
+    "rollup-plugin-dts": "^6.4.1",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.45.0"
   }

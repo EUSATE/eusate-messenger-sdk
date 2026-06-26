@@ -77,5 +77,6 @@ const Eusate: EusateMessengerSDK = {
 if (typeof window !== 'undefined') {
   window.Eusate = Eusate
 }
-export const EusateEnvironment = Environment
+
+export { MessengerConfig, Environment as EusateEnvironment }
 export default Eusate
