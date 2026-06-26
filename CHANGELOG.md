@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-06-26
+
 ### Added
 
 - `minifyCSS` utility in `utils/helpers` — strips CSS comments and collapses whitespace around block delimiters (`{`, `}`, `;`), safe for `calc()` expressions and pseudo-selectors
@@ -20,11 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FAB visual states (rest, hover, press, open) are now fully CSS-driven via `:hover`, `:active`, `:not(:disabled)`, and an `.is-open` class toggle — all JS mouse event handlers and imperative `style.transform` calls removed
 - `open()` and `close()` are now pure state methods that toggle classes and dispatch postMessages with no visual side-effects
 - `chatOrigin` cached as an instance field at construction time instead of allocating `new URL()` on every incoming `message` event
+- Softened FAB press and open-state scale from `0.8` to `0.9` for a less aggressive press effect
 
 ### Fixed
 
 - Added `border-radius: 12px` to the chat widget (reset to `0` on the mobile full-screen breakpoint)
 - Removed duplicate `transform: scale(0)` and `opacity: 0` declarations from the injected stylesheet
+- `MessengerConfig` is now correctly exported as a type from the package public API
+- `EusateEnvironment` is now exported as a named `const` value instead of a type alias, so consumers can reference its members (e.g. `EusateEnvironment.PROD`) at runtime
 
 ## [0.2.6] - 2026-05-26
 
@@ -126,7 +131,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sandboxed iframe with restricted permissions
 - httpOnly cookie session management in chatbot-core
 
-[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.6...HEAD
+[Unreleased]: https://github.com/EUSATE/eusate-messenger-sdk/compare/v0.2.7...HEAD
+[0.2.7]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.7
 [0.2.6]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.6
 [0.2.5]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.5
 [0.2.4]: https://github.com/EUSATE/eusate-messenger-sdk/releases/tag/v0.2.4
