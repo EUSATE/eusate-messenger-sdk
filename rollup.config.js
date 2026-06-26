@@ -16,12 +16,14 @@ export default [
       {
         file: 'dist/eusate-sdk.esm.js',
         format: 'es',
+        exports: 'named',
         sourcemap: false,
       },
       {
         file: 'dist/eusate-sdk.min.js',
         format: 'iife',
         name: 'Eusate',
+        exports: 'named',
         sourcemap: false,
         extend: true,
         globals: {

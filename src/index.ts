@@ -1,6 +1,6 @@
 import EusateMessenger from './MessengerUI'
 import {
-  Environment,
+  EusateEnvironment,
   ERROR_MESSAGES,
   EusateMessengerSDK,
   MessengerConfig,
@@ -78,5 +78,5 @@ if (typeof window !== 'undefined') {
   window.Eusate = Eusate
 }
 
-export { MessengerConfig, Environment as EusateEnvironment }
+export { MessengerConfig, EusateEnvironment }
 export default Eusate

@@ -6,14 +6,14 @@ export enum ErrorType {
   INIT = 'init',
   AUTH = 'auth',
 }
-export enum Environment {
+export enum EusateEnvironment {
   PROD = 'production',
   DEV = 'development',
 }
 
 export type MessengerConfig = {
   apiKey: string
-  environment?: Environment
+  environment?: EusateEnvironment
   onReady?: () => void
   onError?: (error: Error) => void
 }

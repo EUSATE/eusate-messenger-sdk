@@ -1,10 +1,10 @@
-declare enum Environment {
+declare enum EusateEnvironment {
     PROD = "production",
     DEV = "development"
 }
 type MessengerConfig = {
     apiKey: string;
-    environment?: Environment;
+    environment?: EusateEnvironment;
     onReady?: () => void;
     onError?: (error: Error) => void;
 };
@@ -25,5 +25,5 @@ declare global {
 }
 declare const Eusate: EusateMessengerSDK;
 
-export { Environment as EusateEnvironment, Eusate as default };
+export { EusateEnvironment, Eusate as default };
 export type { MessengerConfig };

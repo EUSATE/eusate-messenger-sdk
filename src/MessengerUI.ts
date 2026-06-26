@@ -3,7 +3,7 @@ import {
   ERROR_MESSAGES,
   MessageObjectType,
   POST_MESSAGE_TYPES,
-  Environment,
+  EusateEnvironment,
   ENVIRONMENT_URLS,
   minifyCSS,
 } from './utils'
@@ -135,13 +135,14 @@ class EusateMessenger {
   private chatOrigin: string = ''
   private fabClickHandler: (() => void) | null = null
   private messageHandler: ((evt: MessageEvent) => void) | null = null
-  private initTimeout: number | null = null
+  private initTimeout: NodeJS.Timeout | null = null
 
   private constructor(config: MessengerConfig) {
     this.apiKey = config?.apiKey.trim()
     this.onReady = config.onReady
     this.onError = config.onError
-    this.chatUrl = ENVIRONMENT_URLS[config?.environment || Environment.PROD]
+    this.chatUrl =
+      ENVIRONMENT_URLS[config?.environment || EusateEnvironment.PROD]
     this.chatOrigin = new URL(this.chatUrl).origin
 
     this.container = document.createElement('div')
