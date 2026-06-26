@@ -12,7 +12,6 @@
 
 # testing
 /coverage
-/ui
 
 # next.js
 /.next/
@@ -22,6 +21,8 @@
 # misc
 .DS_Store
 *.pem
+todo.txt
+/ui
 
 # debug
 npm-debug.log*

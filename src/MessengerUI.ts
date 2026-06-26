@@ -109,8 +109,8 @@ const FAB_STYLE = minifyCSS(`
     outline: none;
   }
   #eusate-messenger-fab-btn:not(:disabled):hover { transform: scale(1); }
-  #eusate-messenger-fab-btn:not(:disabled):active { transform: scale(0.8); }
-  #eusate-messenger-fab-btn.is-open { transform: scale(0.8); }
+  #eusate-messenger-fab-btn:not(:disabled):active { transform: scale(0.9); }
+  #eusate-messenger-fab-btn.is-open { transform: scale(0.9); }
   #eusate-messenger-fab-btn.is-open:not(:disabled):hover { transform: scale(1); }
   .fab-icon-chevron { display: none; }
   #eusate-messenger-fab-btn.is-open .fab-icon-chat { display: none; }
